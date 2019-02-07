@@ -1,9 +1,20 @@
 #!/usr/bin/env python3
 
 import psycopg2
+# import only system from os
+from os import system, name
 
 # "Database code" for the DB news
 DBNAME = "news"
+
+
+def clear():
+    # for windows
+    if name == 'nt':
+        _ = system('cls')
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        _ = system('clear')
 
 
 def get_popular_articles():
@@ -54,7 +65,7 @@ def get_high_errors_rate():
 
 
 if __name__ == "__main__":
-
+    clear()
     popular_articles = get_popular_articles()
 
     popular_authors = get_popular_authors()
