@@ -66,8 +66,24 @@ def get_high_errors_rate():
 
 if __name__ == "__main__":
     clear()
+    print('------------------------------------------------------\n\n')
+    print('The most popular three articles of all time are:\n')
     popular_articles = get_popular_articles()
+    for article, views in popular_articles:
+        print('"{} -> {} views"\n'.format(article, views))
 
+    print('------------------------------------------------------\n\n')
+    print('The most popular article authors of all time are:\n')
     popular_authors = get_popular_authors()
+    for author, views in popular_authors:
+        print('"{} -> {} views"\n'.format(author, views))
 
+    print('------------------------------------------------------\n\n')
+    print('The days did more than 1% of requests lead to errors are:\n ')
     high_errors_rate = get_high_errors_rate()
+    if high_errors_rate:
+        for day, percent in high_errors_rate:
+            print('{} -> {} %\n'.format(day, percent))
+    else:
+        print('No day with more than 1% requests lead to errors')
+    print('---------------------------END------------------------\n\n')
