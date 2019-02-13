@@ -17,11 +17,20 @@ def clear():
         _ = system('clear')
 
 
+def connect(dbname=DBNAME):
+    """Connect to the PostgreSQL database and returns a database connection."""!
+    try:
+        db = psycopg2.connect(database=dbname)
+        c = db.cursor()
+        return db, c
+    except psycopg2.Error
+        print("Unable to connect to the database")
+
+
 def get_popular_articles():
     """Return the most popular three articles of all time,
     the most popular article at the top."""
-    db = psycopg2.connect(database=DBNAME)
-    c = db.cursor()
+    db, c = connect()
     c.execute(
         "select title, count(b.status) as views from articles as a, log as b\
         where b.path like '/article/' || a.slug and b.status similar to '2__%'\
@@ -35,8 +44,7 @@ def get_popular_articles():
 def get_popular_authors():
     """Return the most popular article authors of all time, the most popular
      author at the top."""
-    db = psycopg2.connect(database=DBNAME)
-    c = db.cursor()
+    db, c = connect()
     c.execute(
         "select name, count(b.status) as views from articles as a, log as b, \
         authors as c where b.path like '/article/' || a.slug and \
@@ -50,8 +58,7 @@ def get_popular_authors():
 
 def get_high_errors_rate():
     """Return the days did more than 1% of requests lead to errors"""
-    db = psycopg2.connect(database=DBNAME)
-    c = db.cursor()
+    db, c = connect()
     c.execute(
         "select * from (select date(time),\
         round(100.0*sum(case log.status when '200 OK'\
